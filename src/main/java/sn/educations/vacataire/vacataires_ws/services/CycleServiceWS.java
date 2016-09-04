@@ -34,7 +34,7 @@ public class CycleServiceWS {
 	
 	//save or update
 	@RequestMapping(value = "/saveCycle", method= RequestMethod.GET )
-	public String saveCycle(@RequestParam( value="id")                            Long id,
+	public String saveCycle(@RequestParam( value="id", required=false)            Long id,
 			                @RequestParam( value="libelle", required=true)        String libelle,
 			                @RequestParam( value="idDepartement", required=false) Long idDepartement,
 			                @RequestParam( value="idSurveillant", required=false) Long idSurveillant) throws JsonProcessingException{
@@ -44,7 +44,7 @@ public class CycleServiceWS {
 			cycle = cycleService.findById(id);		
 		cycle.setLibelle(libelle);
 		
-		if(!idDepartement.equals(null)){
+		if(idDepartement != null){
 			Departement dept = departementService.findById(idDepartement);
 			if(dept != null)
 				cycle.setDepartement(dept);
@@ -75,9 +75,16 @@ public class CycleServiceWS {
 	
 	//Recherche
 	@RequestMapping(value = "/findCycle", method= RequestMethod.GET )
-	public String findCycle(@RequestParam( value="id")      Long id,
-			                @RequestParam( value="libelle") String libelle) throws JsonProcessingException{
+	public String findCycle(@RequestParam( value="id", required=false)     Long id,
+			                @RequestParam( value="libelle",required=false) String libelle) throws JsonProcessingException{
 		
+		if((id==null) && (libelle==null))
+			return findAllCycle();
+		return findOne(id, libelle);
+	}
+	
+	
+	public String findOne(Long id,String libelle) throws JsonProcessingException{
 		Cycle cycle = null;
 		if((id!= null) && (libelle!=null)){
 			cycle = cycleService.findById(id);
@@ -93,12 +100,9 @@ public class CycleServiceWS {
 		FilterProvider filters = new SimpleFilterProvider().
 				addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("departement"));
 		return objectMapper.writer(filters).writeValueAsString(cycle);			
-	}
-	
-	//get All cycles
-	@RequestMapping(value = "/findAllCycle", method= RequestMethod.GET )
+	}	
+
 	public String findAllCycle() throws JsonProcessingException{
-		
 		List<Cycle> cycles = cycleService.findAll();
 		ObjectMapper objectMapper = new ObjectMapper();
 		FilterProvider filters = new SimpleFilterProvider().

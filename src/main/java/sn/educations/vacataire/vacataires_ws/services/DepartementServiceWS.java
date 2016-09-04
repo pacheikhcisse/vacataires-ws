@@ -34,10 +34,10 @@ public class DepartementServiceWS {
 	
 	// Save or update departement
 	@RequestMapping(value = "/saveDepartement", method= RequestMethod.GET )
-	public String saveDepartement(@RequestParam( value="id")  Long id,
-			                         @RequestParam( value="nom", required=true) String nom,
-									 @RequestParam( value="idChefDepartement")  Long idChefDepartement,
-									 @RequestParam( value="idAuditeur")         Long idAuditeur) throws JsonProcessingException{
+	public String saveDepartement(@RequestParam( value="id", required=false)                    Long id,
+			                         @RequestParam( value="nom", required=true)                 String nom,
+									 @RequestParam( value="idChefDepartement", required=false)  Long idChefDepartement,
+									 @RequestParam( value="idAuditeur", required=false)         Long idAuditeur) throws JsonProcessingException{
 		
 		Departement departement = new Departement();
 		
@@ -77,9 +77,16 @@ public class DepartementServiceWS {
 	
 	//Recherche departement
 	@RequestMapping(value = "/findDepartement", method= RequestMethod.GET )
-	public String findDepartement(@RequestParam( value="id")Long id,
-			                          @RequestParam( value="nom")String nom) throws JsonProcessingException{
+	public String findDepartement(@RequestParam( value="id", required=false)      Long id,
+			                          @RequestParam( value="nom", required=false) String nom) throws JsonProcessingException{
+		if((id==null) && (nom == null))
+			return findAllDepartement();
+		return findOneDepartement(id, nom);
+	}
 		
+
+	//Recherche un departement
+    public String findOneDepartement(Long id,String nom) throws JsonProcessingException{
 		Departement departement = null;
 		if((id != null) && (nom != null)){
 			departement = departementService.findById(id);
@@ -95,20 +102,16 @@ public class DepartementServiceWS {
 		FilterProvider filters = new SimpleFilterProvider().
 				                    addFilter("jsonFilterDepartement", SimpleBeanPropertyFilter.serializeAllExcept()).
 				                    addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("departement"));
-		
 		return objectMapper.writer(filters).writeValueAsString(departement);
 	}
 	
 	//get all departement
-	@RequestMapping(value = "/findAllDepartement", method= RequestMethod.GET )
 	public String findAllDepartement() throws JsonProcessingException{
-		
 		List<Departement> departements = departementService.findAll();
 		ObjectMapper objectMapper = new ObjectMapper();
 		FilterProvider filters = new SimpleFilterProvider().
 				                    addFilter("jsonFilterDepartement", SimpleBeanPropertyFilter.serializeAllExcept()).
 				                    addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("departement"));
-		
 		return objectMapper.writer(filters).writeValueAsString(departements);
 	}
 
