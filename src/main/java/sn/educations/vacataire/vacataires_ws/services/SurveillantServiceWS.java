@@ -1,4 +1,4 @@
-  package sn.educations.vacataire.vacataires_ws.services;
+package sn.educations.vacataire.vacataires_ws.services;
 
 import java.util.List;
 
@@ -76,7 +76,6 @@ public class SurveillantServiceWS {
 		FilterProvider filters = new SimpleFilterProvider()
 				.addFilter("jsonFilterSurveillant", SimpleBeanPropertyFilter.serializeAllExcept())
 				.addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("surveillant","departement"));
-		
 		return objectMapper.writer(filters).writeValueAsString(surveillants);
 	}
 
