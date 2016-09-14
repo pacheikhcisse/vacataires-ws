@@ -34,4 +34,9 @@ public class SurveillantServiceImp implements ISurveillantService {
 		return surveillantDaoService.findAll();
 	}
 
+	@Override
+	public List<Surveillant> getSurveillants(Long id, String nom, String prenom, String telephone) {
+		return surveillantDaoService.getSurveillant(id, nom, prenom, telephone);
+	}
+
 }

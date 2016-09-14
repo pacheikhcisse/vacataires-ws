@@ -21,7 +21,7 @@ public class CycleServiceImp implements ICycleService {
 	public void delete(Cycle cycle) {
 		cycleDaoService.delete(cycle);
 	}
-
+	
 	public Cycle findById(Long id) {
 		return cycleDaoService.findById(id);
 	}
@@ -32,6 +32,10 @@ public class CycleServiceImp implements ICycleService {
 
 	public List<Cycle> findAll() {
 		return cycleDaoService.findAll();
+	}
+
+	public List<Cycle> getCycles(Long id, String libelle) {
+		return cycleDaoService.getCycles(id, libelle);
 	}
 
 }

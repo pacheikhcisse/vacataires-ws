@@ -9,5 +9,6 @@ public interface IDepartementService {
 	public void delete(Departement departement);
 	public Departement findById(Long id);
 	public Departement findByNom(String nom);
+	public List<Departement> getDepartements(Long id, String nom);
 	public List<Departement> findAll(); 
 }

@@ -15,10 +15,8 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 import sn.educations.vacataire.dao.modele.Cycle;
-import sn.educations.vacataire.dao.modele.Departement;
 import sn.educations.vacataire.dao.modele.Surveillant;
 import sn.educations.vacataire.vacataires_ws.actions.CycleServiceImp;
-import sn.educations.vacataire.vacataires_ws.actions.DepartementServiceImp;
 import sn.educations.vacataire.vacataires_ws.actions.SurveillantServiceImp;
 
 @RestController
@@ -26,8 +24,7 @@ public class CycleServiceWS {
 	
 	@Autowired
 	private CycleServiceImp cycleService;
-	@Autowired
-	private DepartementServiceImp departementService;
+	
 	@Autowired
 	private SurveillantServiceImp surveillantService;
 	
@@ -35,20 +32,15 @@ public class CycleServiceWS {
 	//save or update
 	@RequestMapping(value = "/saveCycle", method= RequestMethod.GET )
 	public String saveCycle(@RequestParam( value="id", required=false)            Long id,
-			                @RequestParam( value="libelle", required=true)        String libelle,
-			                @RequestParam( value="idDepartement", required=false) Long idDepartement,
+			                @RequestParam( value="libelle", required=false)       String libelle,
 			                @RequestParam( value="idSurveillant", required=false) Long idSurveillant) throws JsonProcessingException{
 		
 		Cycle cycle = new Cycle();
 		if((id!=null) && (cycleService.findById(id)!= null))
 			cycle = cycleService.findById(id);		
-		cycle.setLibelle(libelle);
 		
-		if(idDepartement != null){
-			Departement dept = departementService.findById(idDepartement);
-			if(dept != null)
-				cycle.setDepartement(dept);
-		}
+		if(libelle!=null && libelle.trim().length()>0)
+			cycle.setLibelle(libelle);
 		
 		if(idSurveillant!= null){
 			Surveillant surv = surveillantService.findById(idSurveillant);
@@ -60,7 +52,10 @@ public class CycleServiceWS {
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		FilterProvider filters = new SimpleFilterProvider().
-				addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("departement"));
+				addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept()).
+				addFilter("jsonFilterSurveillant", SimpleBeanPropertyFilter.serializeAllExcept("cycles")).
+				addFilter("jsonCycleDepartement", SimpleBeanPropertyFilter.serializeAllExcept("cycle")).
+				addFilter("jsonFilterDepartement", SimpleBeanPropertyFilter.serializeAllExcept("cycleDepartements"));
 		return objectMapper.writer(filters).writeValueAsString(cycle);
 	}
 	
@@ -78,38 +73,13 @@ public class CycleServiceWS {
 	public String findCycle(@RequestParam( value="id", required=false)     Long id,
 			                @RequestParam( value="libelle",required=false) String libelle) throws JsonProcessingException{
 		
-		if((id==null) && (libelle==null))
-			return findAllCycle();
-		return findOne(id, libelle);
-	}
-	
-	
-	public String findOne(Long id,String libelle) throws JsonProcessingException{
-		Cycle cycle = null;
-		if((id!= null) && (libelle!=null)){
-			cycle = cycleService.findById(id);
-			if((cycle != null) && (!cycle.getLibelle().equalsIgnoreCase(libelle)))
-				cycle = null;
-		}
-		else if(id!=null)
-			cycle = cycleService.findById(id);
-		else if(libelle != null)
-			cycle = cycleService.findByLibelle(libelle);
-		
+		List<Cycle> cycles = cycleService.getCycles(id, libelle);
 		ObjectMapper objectMapper = new ObjectMapper();
 		FilterProvider filters = new SimpleFilterProvider().
-				addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("departement"));
-		return objectMapper.writer(filters).writeValueAsString(cycle);			
-	}	
-
-	public String findAllCycle() throws JsonProcessingException{
-		List<Cycle> cycles = cycleService.findAll();
-		ObjectMapper objectMapper = new ObjectMapper();
-		FilterProvider filters = new SimpleFilterProvider().
-				addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("departement"));
-		return objectMapper.writer(filters).writeValueAsString(cycles);			
+				addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept()).
+				addFilter("jsonFilterSurveillant", SimpleBeanPropertyFilter.serializeAllExcept("cycles")).
+				addFilter("jsonCycleDepartement", SimpleBeanPropertyFilter.serializeAllExcept("cycle")).
+				addFilter("jsonFilterDepartement", SimpleBeanPropertyFilter.serializeAllExcept("cycleDepartements"));
+		return objectMapper.writer(filters).writeValueAsString(cycles);
 	}
-	
-	
-
 }

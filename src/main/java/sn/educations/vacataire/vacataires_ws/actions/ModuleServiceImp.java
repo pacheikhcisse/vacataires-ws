@@ -34,4 +34,8 @@ public class ModuleServiceImp implements IModuleService {
 		return moduledaoservice.findAll();
 	}
 
+	public List<Module> getModules(Long id, String libelle) {
+		return moduledaoservice.getModules(id, libelle);
+	}
+
 }

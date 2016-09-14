@@ -9,5 +9,6 @@ public interface IModuleService {
 	public Module save(Module module);
 	public Module findById(Long id);
 	public Module findByLibelle(String libelle);
+	public List<Module> getModules(Long id,String libelle);
 	public List<Module> findAll();
 }

@@ -21,7 +21,7 @@ public class DepartementServiceImp implements IDepartementService {
 	public void delete(Departement departement) {
 		departementDaoservice.delete(departement);
 	}
-
+	
 	public Departement findById(Long id) {
 		return departementDaoservice.findById(id);
 	}
@@ -32,6 +32,10 @@ public class DepartementServiceImp implements IDepartementService {
 
 	public List<Departement> findAll() {
 		return departementDaoservice.findAll();
+	}
+
+	public List<Departement> getDepartements(Long id, String nom) {
+		return departementDaoservice.getDepartement(id, nom);
 	}
 
 }

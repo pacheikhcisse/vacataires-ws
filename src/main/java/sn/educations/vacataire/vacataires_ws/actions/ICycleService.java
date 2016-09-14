@@ -9,6 +9,7 @@ public interface ICycleService {
 	public void delete(Cycle cycle);
 	public Cycle findById(Long id);
 	public Cycle findByLibelle(String libelle);
+	public List<Cycle> getCycles(Long id, String libelle);
 	public List<Cycle> findAll();
 	
 }
