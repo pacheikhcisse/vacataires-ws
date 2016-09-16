@@ -3,3 +3,12 @@
 .classpath
 .project
 .settings
+.idea/
+vacataires-ws.iml
+
+# Package Files #
+*.war
+*.ear
+
+# STS (Spring Tool Suite)
+.springBeans
