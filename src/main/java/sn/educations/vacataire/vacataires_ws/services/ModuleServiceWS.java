@@ -46,7 +46,7 @@ public class ModuleServiceWS {
 	
 	//Suppression
 	@RequestMapping(value = "/deleteModule", method= RequestMethod.GET)
-	public void deleteModule(@RequestParam( value="id", required=true)Long id){
+	public void deleteModule(@RequestParam( value="id")Long id){
 		
 		Module module = moduleService.findById(id);
 		if(module != null)
@@ -56,8 +56,8 @@ public class ModuleServiceWS {
 	
 	//save or update
 	@RequestMapping(value = "/rechercheModule", method= RequestMethod.GET)
-	public String rechercheModule(@RequestParam( value="id",      required=false) Long   id,
-			                 @RequestParam( value="libelle", required=false) String libelle) throws JsonProcessingException{
+	public String rechercheModule(@RequestParam( value="id",     required=false) Long   id,
+			                      @RequestParam( value="libelle",required=false) String libelle) throws JsonProcessingException{
 		
 		List<Module> modules = moduleService.getModules(id, libelle);
 		

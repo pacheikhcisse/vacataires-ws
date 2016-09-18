@@ -61,7 +61,7 @@ public class CycleServiceWS {
 	
 	//Sppression cycle
 	@RequestMapping(value = "/deleteCycle", method= RequestMethod.GET )
-	public void deleteCycle(@RequestParam( value="id", required=true) Long id){
+	public void deleteCycle(@RequestParam( value="id") Long id){
 		
 		Cycle cycle = cycleService.findById(id);
 		if(cycle!=null)

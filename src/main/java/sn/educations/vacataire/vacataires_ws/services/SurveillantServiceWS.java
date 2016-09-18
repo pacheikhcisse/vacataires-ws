@@ -58,7 +58,7 @@ public class SurveillantServiceWS {
 	
 	//Suppression surveillant
 	@RequestMapping(value = "/deleteSurveillant", method= RequestMethod.GET)
-	public void deleteSurveillant(@RequestParam( value="id", required=true)Long id) throws JsonProcessingException{
+	public void deleteSurveillant(@RequestParam( value="id")Long id) throws JsonProcessingException{
 		Surveillant surveillant = surveillantService.findById(id);
 		if(surveillant != null)
 			surveillantService.delete(surveillant);

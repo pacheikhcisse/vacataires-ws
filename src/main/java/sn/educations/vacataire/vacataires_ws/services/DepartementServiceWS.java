@@ -35,9 +35,9 @@ public class DepartementServiceWS {
 	// Save or update departement
 	@RequestMapping(value = "/saveDepartement", method= RequestMethod.GET )
 	public String saveDepartement(@RequestParam( value="id", required=false)                    Long id,
-			                         @RequestParam( value="nom", required=false)                String nom,
-									 @RequestParam( value="idChefDepartement", required=false)  Long idChefDepartement,
-									 @RequestParam( value="idAuditeur", required=false)         Long idAuditeur) throws JsonProcessingException{
+			                      @RequestParam( value="nom", required=false)                String nom,
+								  @RequestParam( value="idChefDepartement", required=false)  Long idChefDepartement,
+								  @RequestParam( value="idAuditeur", required=false)         Long idAuditeur) throws JsonProcessingException{
 		
 		Departement departement = new Departement();
 		
@@ -72,7 +72,7 @@ public class DepartementServiceWS {
 	
 	//Suppression departement
 	@RequestMapping(value = "/deleteDepartement", method= RequestMethod.GET )
-	public void deleteDepartement(@RequestParam( value="id", required=true)Long id) throws JsonProcessingException{
+	public void deleteDepartement(@RequestParam( value="id")Long id) throws JsonProcessingException{
 		
 		Departement dept = departementService.findById(id);
 		if(dept != null)
