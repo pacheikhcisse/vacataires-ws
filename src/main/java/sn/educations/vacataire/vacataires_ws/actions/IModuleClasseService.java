@@ -1,8 +1,8 @@
 package sn.educations.vacataire.vacataires_ws.actions;
 
-import java.util.List;
-
 import sn.educations.vacataire.dao.modele.ModuleClasse;
+
+import java.util.List;
 
 public interface IModuleClasseService {
 	public void delete(ModuleClasse moduleClasse);

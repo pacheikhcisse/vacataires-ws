@@ -1,12 +1,11 @@
 package sn.educations.vacataire.vacataires_ws.actions;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import sn.educations.vacataire.dao.modele.ModuleClasse;
 import sn.educations.vacataire.dao.services.ModuleClasseDaoServiceImp;
+
+import java.util.List;
 
 @Component
 public class ModuleClasseServiceImp implements IModuleClasseService {

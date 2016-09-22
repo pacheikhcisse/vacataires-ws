@@ -1,23 +1,21 @@
 package sn.educations.vacataire.vacataires_ws.services;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import sn.educations.vacataire.dao.modele.Classe;
 import sn.educations.vacataire.dao.modele.Cycle;
 import sn.educations.vacataire.vacataires_ws.actions.ClasseServiceImp;
 import sn.educations.vacataire.vacataires_ws.actions.CycleServiceImp;
+
+import java.util.List;
 
 @RestController
 public class ClasseServiceWS {

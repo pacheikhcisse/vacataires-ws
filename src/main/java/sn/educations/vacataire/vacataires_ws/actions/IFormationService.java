@@ -1,8 +1,8 @@
 package sn.educations.vacataire.vacataires_ws.actions;
 
-import java.util.List;
-
 import sn.educations.vacataire.dao.modele.Formation;
+
+import java.util.List;
 
 public interface IFormationService {
 	public void delete(Formation formation);

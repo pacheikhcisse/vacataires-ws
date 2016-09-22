@@ -1,27 +1,28 @@
 package sn.educations.vacataire.vacataires_ws.services;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import sn.educations.vacataire.dao.modele.Auditeur;
 import sn.educations.vacataire.dao.modele.ChefDepartement;
+import sn.educations.vacataire.dao.modele.Cycle;
 import sn.educations.vacataire.dao.modele.Departement;
 import sn.educations.vacataire.vacataires_ws.actions.AuditeurServiceImp;
 import sn.educations.vacataire.vacataires_ws.actions.ChefDepartementServiceImpl;
 import sn.educations.vacataire.vacataires_ws.actions.DepartementServiceImp;
 
+import java.util.List;
+
 @RestController
+@Slf4j
 public class DepartementServiceWS {
 	
 	@Autowired
@@ -30,45 +31,23 @@ public class DepartementServiceWS {
 	private ChefDepartementServiceImpl chefDepartementService;
 	@Autowired
 	private AuditeurServiceImp auditeurService;
-	
-	
-	// Save or update departement
-	@RequestMapping(value = "/saveDepartement", method= RequestMethod.GET )
-	public String saveDepartement(@RequestParam( value="id", required=false)                    Long id,
-			                      @RequestParam( value="nom", required=false)                String nom,
-								  @RequestParam( value="idChefDepartement", required=false)  Long idChefDepartement,
-								  @RequestParam( value="idAuditeur", required=false)         Long idAuditeur) throws JsonProcessingException{
-		
-		Departement departement = new Departement();
-		
-		if((id != null) && departementService.findById(id)!=null)
-			departement = departementService.findById(id);
-				
-		if(nom!=null && nom.trim().length()>0)
-			departement.setNom(nom);
-		
-		if(idChefDepartement != null){
-			ChefDepartement chefDept = chefDepartementService.findById(idChefDepartement);
-			if(chefDept != null)
-				departement.setChefDepartement(chefDept);
-		}
-		
-		if(idAuditeur != null){
-			Auditeur audit = auditeurService.findById(idAuditeur);
-			if(audit != null)
-				departement.setAuditeur(audit);
-		}
-		 
-		departement = departementService.save(departement);
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		FilterProvider filters = new SimpleFilterProvider()
-									.addFilter("jsonFilterDepartement", SimpleBeanPropertyFilter.serializeAllExcept())
-									.addFilter("jsonCycleDepartement", SimpleBeanPropertyFilter.serializeAllExcept("departement"))
-									.addFilter("jsonfilterCycle", SimpleBeanPropertyFilter.serializeAllExcept("cycleDepartements","surveillant"));
-		
-		return objectMapper.writer(filters).writeValueAsString(departement);
+
+
+	@ApiOperation(value = "Retrieve all departements")
+	@RequestMapping(value="/departements", method = RequestMethod.GET)
+	public List<Departement> findAll() {
+		log.info("Find all departements");
+		return departementService.findAll();
 	}
+
+	@ApiOperation(value = "Create a departement")
+	@RequestMapping(value="/departements", method = RequestMethod.POST)
+	public ResponseEntity saveDepartement(@RequestBody Departement departement) {
+		log.info("Create departement [{}]" + departement);
+		departementService.save(departement);
+		return new ResponseEntity(departement, HttpStatus.CREATED);
+	}
+
 	
 	//Suppression departement
 	@RequestMapping(value = "/deleteDepartement", method= RequestMethod.GET )

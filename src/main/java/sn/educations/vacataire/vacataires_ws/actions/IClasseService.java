@@ -1,8 +1,8 @@
 package sn.educations.vacataire.vacataires_ws.actions;
 
-import java.util.List;
-
 import sn.educations.vacataire.dao.modele.Classe;
+
+import java.util.List;
 
 public interface IClasseService {
 	public Classe save(Classe classe);

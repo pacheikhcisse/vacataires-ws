@@ -1,12 +1,11 @@
 package sn.educations.vacataire.vacataires_ws.actions;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import sn.educations.vacataire.dao.modele.Formation;
 import sn.educations.vacataire.dao.services.FormationDaoServiceImp;
+
+import java.util.List;
 
 @Component
 public class FormationServiceImp implements IFormationService {
