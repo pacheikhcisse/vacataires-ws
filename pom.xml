@@ -4,7 +4,7 @@
 
     <groupId>sn.educations.vacataire</groupId>
     <artifactId>vacataires-ws</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
     <name>vacataires-ws</name>
 
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>sn.educations.vacataire</groupId>
             <artifactId>vacataire-dao</artifactId>
-            <version>${project-version}</version>
+            <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
